@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creating Notes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1><img src="notes.png" alt="">Notes</h1>
+        <button class="btn"><img src="edit.png" alt="">Create Notes</button>
+        <div class="notes-container">
+            <!-- <p contenteditable="true" class="input-box"placeholder="write your note">
+                    <img src="delete.png" alt="">
+                </p> -->
+        </div>
+    </div>
+    <script>
+        const notesContainer = document.querySelector(".notes-container");
+        const createBtn = document.querySelector(".btn");
+        let Notes = document.querySelectorAll(".input-box");
+        function shownotes()
+        {
+            notesContainer.innerHTML = localStorage.getItem("NOTES");
+        }
+        shownotes();
+        function updateStorage(){
+            localStorage.setItem("NOTES" ,notesContainer.innerHTML);
+        }
+        createBtn.addEventListener("click", () => {
+
+            let inputBox = document.createElement("p");
+            let img = document.createElement("img");
+
+            inputBox.className = "input-box";
+            img.src = "delete.png";
+
+            inputBox.setAttribute("contenteditable", "true");
+
+            notesContainer.appendChild(inputBox).appendChild(img);
+
+        });
+
+        notesContainer.addEventListener("click",function(e){
+            if (e.target.tagName === "IMG"){
+                e.target.parentElement.remove();
+                updateStorage();
+            }
+            else if (e.target.tagName === "P")
+            {
+                NOTES = document.querySelectorAll(".input-box");
+                NOTES.forEach(nt => {
+                    nt.onkeyup = function(){
+                        updateStorage();
+                    }
+                })    
+            }
+        });
+
+        document.addEventListener("keydown",event=>{
+            if (event.key == "Enter")
+            {
+                document.execCommand("insertLineBreak");
+                event.preventDefault();
+            }
+        })
+    </script>
+</body>
+
+</html>
